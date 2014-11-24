@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lidroid.xutils.BitmapUtils;
+import com.lidroid.xutils.bitmap.BitmapCommonUtils;
 import com.lidroid.xutils.bitmap.BitmapDisplayConfig;
 import com.lidroid.xutils.bitmap.callback.BitmapLoadFrom;
 import com.lidroid.xutils.bitmap.callback.DefaultBitmapLoadCallBack;
@@ -12,6 +13,7 @@ import com.westlakestudent.constants.Constants;
 import com.westlakestudent.entity.ImageUrl;
 import com.westlakestudent.net.UrlPicker;
 import com.westlakestudent.ui.AllKindPicView;
+import com.westlakestudent.util.ScaleUtil;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,10 +22,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.ImageView.ScaleType;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -41,9 +44,10 @@ public class MainActivity extends Activity {
 
 	private BitmapUtils mBitmapUtils = null;
 
-	private AllKindPicView mAllKindPicView = null;
+	private static AllKindPicView mAllKindPicView = null;
 
 	private static PicAdapter mPicAdapter = null;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +59,16 @@ public class MainActivity extends Activity {
 		mAllKindPicView.setAdapter(mPicAdapter);
 
 		setContentView(mAllKindPicView);
+		
 		mBitmapUtils = new BitmapUtils(this);
-		mBitmapUtils.configDefaultLoadingImage(R.drawable.ic_launcher);
+		mBitmapUtils.configDefaultLoadingImage(R.drawable.empty_photo);
 		mBitmapUtils.configDefaultLoadFailedImage(R.drawable.bitmap);
 		mBitmapUtils.configDefaultBitmapConfig(Bitmap.Config.RGB_565);
-		mBitmapUtils.configMemoryCacheEnabled(false);
-		mBitmapUtils.configDiskCacheEnabled(false);
+		mBitmapUtils.configMemoryCacheEnabled(true);
+		mBitmapUtils.configDiskCacheEnabled(true);
+		mBitmapUtils.configDefaultBitmapMaxSize(BitmapCommonUtils
+				.getScreenSize(this).scaleDown(2));
+
 		picker = UrlPicker.getInstance();
 		picker.registerHandler(UrlHandler);
 		picker.pick(1);
@@ -80,6 +88,7 @@ public class MainActivity extends Activity {
 					Log.d(TAG, url.toString());
 				}
 				mPicAdapter.notifyDataSetChanged();
+				mAllKindPicView.onRefreshComplete();
 				break;
 			}
 		}
@@ -119,8 +128,8 @@ public class MainActivity extends Activity {
 			String desc = imageUrl.getDesc();
 			String url = imageUrl.getUrl();
 			holder.desc.setText(desc);
-			holder.progress.setProgress(0);
-			Log.d(TAG, imageUrl.toString() + "µÚ" + position + "¸ö");
+			Log.d(TAG, imageUrl.toString() + "   ç¬¬" + position + "ä¸ª" + "width:"
+					+ imageUrl.getWidth() + "height:" + imageUrl.getHeight());
 			mBitmapUtils.display(holder.img, url, new CustomBitmapLoadCallBack(
 					holder));
 			return convertView;
@@ -136,38 +145,29 @@ public class MainActivity extends Activity {
 			this.holder = holder;
 		}
 
-		
-		
 		@Override
 		public void onLoading(ImageView container, String uri,
 				BitmapDisplayConfig config, long total, long current) {
 			super.onLoading(container, uri, config, total, current);
-			holder.progress.setProgress((int) (current * 100 / total));
-			holder.desc.setText((int) (current * 100 / total) + "%");
 		}
-
-
 
 		@Override
 		public void onLoadCompleted(ImageView container, String uri,
 				Bitmap bitmap, BitmapDisplayConfig config, BitmapLoadFrom from) {
-			// super.onLoadCompleted(container, uri, bitmap, config, from);
+			super.onLoadCompleted(container, uri, bitmap, config, from);
 			fadeInDisplay(container, bitmap);
 		}
 
 	}
 
-	static class ImageItemHolder {
-		ImageView img;
+	private class ImageItemHolder {
+		private ImageView img;
 
-		TextView desc;
-
-		ProgressBar progress;
+		private TextView desc;
 
 		public ImageItemHolder(View v) {
 			img = (ImageView) v.findViewById(R.id.img);
 			desc = (TextView) v.findViewById(R.id.desc);
-			progress = (ProgressBar) v.findViewById(R.id.progress);
 		}
 	}
 
@@ -178,6 +178,27 @@ public class MainActivity extends Activity {
 		final TransitionDrawable transitionDrawable = new TransitionDrawable(
 				new Drawable[] { TRANSPARENT_DRAWABLE,
 						new BitmapDrawable(imageView.getResources(), bitmap) });
+		int width = ScaleUtil.scale(240);
+		int scale = bitmap.getWidth() / width;
+		int height = 0;
+		if (scale == 0) {
+			scale = width / bitmap.getWidth();
+			if (scale == 0) {
+				imageView.setVisibility(View.GONE);
+				Log.d(TAG, "scale is 0");
+				return;
+			}
+			height = bitmap.getHeight() * scale;
+		}
+
+		height = bitmap.getHeight() / scale;
+		LayoutParams params = imageView.getLayoutParams();
+		params.height = height;
+		params.width = width;
+		imageView.setLayoutParams(params);
+		imageView.setScaleType(ScaleType.FIT_CENTER);
+		imageView.setPadding(5, 5, 5, 5);
+
 		imageView.setImageDrawable(transitionDrawable);
 		transitionDrawable.startTransition(500);
 	}

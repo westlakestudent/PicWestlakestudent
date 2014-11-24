@@ -43,7 +43,7 @@ public class UrlPicker {
 	
 	public void pick(int page) {
 		String url = "http://image.baidu.com/channel/listjson?" + "pn="
-				+ page + "&rn=30&tag1=美女&tag2=全部&ie=utf8";
+				+ page + "&rn=30&tag1=缇庡コ&tag2=鍏ㄩ儴&ie=utf8";
 		
 		HttpUtils http = new HttpUtils(10 * 1000);
 		http.send(HttpMethod.GET, url, new PickTask());
@@ -51,7 +51,7 @@ public class UrlPicker {
 
 	public void pick(int page,String kind){
 		String url = "http://image.baidu.com/channel/listjson?"
-				+ "pn= " + page + "&rn=30&tag1=美女&tag2=全部&ftags=" + kind + "&ie=utf8";
+				+ "pn=" + page + "&rn=30&tag1=缇庡コ&tag2=鍏ㄩ儴&ftags=" + kind + "&ie=utf8";
 		HttpUtils http = new HttpUtils(10 * 1000);
 		http.send(HttpMethod.GET, url, new PickTask());
 	}
@@ -83,7 +83,9 @@ public class UrlPicker {
 					img.setDesc(desc);
 					img.setHeight(isNull(height)? 0 :Integer.valueOf(height));
 					img.setUrl(url);
-					img.setWidth(isNull(height)? 0 : Integer.valueOf(width));
+					img.setWidth(isNull(width)? 0 : Integer.valueOf(width));
+					if(!img.isValid())
+						continue;
 					urls.add(img);
 				}
 

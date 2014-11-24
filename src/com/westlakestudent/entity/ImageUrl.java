@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class ImageUrl implements Serializable{
 
 	/**
-	 * 
+	 * 2014年11月21
 	 */
 	private static final long serialVersionUID = 1L;
 	
@@ -56,6 +56,8 @@ public class ImageUrl implements Serializable{
 	}
 	
 	
-
+	public boolean isValid(){
+		return url != null && !url.equals("");
+	}
 	
 }

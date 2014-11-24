@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="#000000" >
 
     <ImageView
         android:id="@+id/img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="2dp"
         android:contentDescription="@string/app_name" />
 
     <TextView
+        android:background="@drawable/title_bg"
         android:id="@+id/desc"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:singleLine="true" />
-
-    <ProgressBar
-        android:id="@+id/progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="2dp" />
 
 </FrameLayout>
