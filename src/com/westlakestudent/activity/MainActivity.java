@@ -47,7 +47,6 @@ public class MainActivity extends Activity {
 	private static AllKindPicView mAllKindPicView = null;
 
 	private static PicAdapter mPicAdapter = null;
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +58,7 @@ public class MainActivity extends Activity {
 		mAllKindPicView.setAdapter(mPicAdapter);
 
 		setContentView(mAllKindPicView);
-		
+
 		mBitmapUtils = new BitmapUtils(this);
 		mBitmapUtils.configDefaultLoadingImage(R.drawable.empty_photo);
 		mBitmapUtils.configDefaultLoadFailedImage(R.drawable.bitmap);

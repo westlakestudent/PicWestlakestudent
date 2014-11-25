@@ -1,13 +1,13 @@
 package com.westlakestudent.ui;
 
-import com.westlakestudent.net.UrlPicker;
-import com.westlakestudent.widget.MultiColumnPullToRefreshListView;
-import com.westlakestudent.widget.MultiColumnPullToRefreshListView.OnRefreshListener;
-
 import android.content.Context;
 import android.util.Log;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+
+import com.westlakestudent.net.UrlPicker;
+import com.westlakestudent.widget.MultiColumnPullToRefreshListView;
+import com.westlakestudent.widget.MultiColumnPullToRefreshListView.OnRefreshListener;
 
 /**
  * 
@@ -40,7 +40,7 @@ public class AllKindPicView extends LinearLayout {
 		mMultiColumnPullToRefreshListView = new MultiColumnPullToRefreshListView(
 				context);
 		mMultiColumnPullToRefreshListView.setShowLastUpdatedText(true);
-//		mMultiColumnPullToRefreshListView.setLockScrollWhileRefreshing(true);
+		// mMultiColumnPullToRefreshListView.setLockScrollWhileRefreshing(true);
 		mMultiColumnPullToRefreshListView
 				.setOnRefreshListener(mOnRefreshListener);
 		addView(mMultiColumnPullToRefreshListView, params);
