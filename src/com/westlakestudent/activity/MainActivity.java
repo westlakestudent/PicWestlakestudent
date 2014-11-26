@@ -14,6 +14,7 @@ import com.westlakestudent.entity.ImageUrl;
 import com.westlakestudent.net.UrlPicker;
 import com.westlakestudent.ui.AllKindPicView;
 import com.westlakestudent.util.ScaleUtil;
+import com.westlakestudent.util.WestlakestudentToast;
 import com.westlakestudent.widget.MultiColumnListView.OnLoadMoreListener;
 
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import android.widget.TextView;
 import android.widget.ImageView.ScaleType;
 import android.widget.Toast;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -52,12 +54,16 @@ public class MainActivity extends Activity implements OnLoadMoreListener{
 	
 	private int page = 1;
 	
+	private static Context context = null;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		com.westlakestudent.util.ScaleUtil.scaleInit(this, 800, 480, 240);
 
+		context = this;
+		
 		mAllKindPicView = new AllKindPicView(this,this);
 		mPicAdapter = new PicAdapter();
 		mAllKindPicView.setAdapter(mPicAdapter);
@@ -87,6 +93,10 @@ public class MainActivity extends Activity implements OnLoadMoreListener{
 			switch (msg.what) {
 			case Constants.URL_DONE:
 				List<ImageUrl> newUrls = (List<ImageUrl>) msg.obj;
+				if(newUrls == null || newUrls.isEmpty()){
+					WestlakestudentToast.toast(context, "亲，未获取到图片数据");
+					return;
+				}
 				urls.addAll(newUrls);
 				mPicAdapter.notifyDataSetChanged();
 				mAllKindPicView.onRefreshComplete();
