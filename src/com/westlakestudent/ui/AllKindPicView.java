@@ -1,13 +1,13 @@
 package com.westlakestudent.ui;
 
+import com.westlakestudent.widget.MultiColumnListView;
+import com.westlakestudent.widget.MultiColumnListView.OnLoadMoreListener;
+
 import android.content.Context;
 import android.util.Log;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 
-import com.westlakestudent.net.UrlPicker;
-import com.westlakestudent.widget.MultiColumnPullToRefreshListView;
-import com.westlakestudent.widget.MultiColumnPullToRefreshListView.OnRefreshListener;
 
 /**
  * 
@@ -20,15 +20,14 @@ import com.westlakestudent.widget.MultiColumnPullToRefreshListView.OnRefreshList
 public class AllKindPicView extends LinearLayout {
 
 	private static final String TAG = "AllKindPicView";
-	private MultiColumnPullToRefreshListView mMultiColumnPullToRefreshListView = null;
+	private MultiColumnListView mMultiColumnListView = null;
+	private OnLoadMoreListener mOnLoadMoreListener = null;
 	private Context context = null;
-	private UrlPicker picker = null;
-	private int page = 1;
 
-	public AllKindPicView(Context context) {
+	public AllKindPicView(Context context,OnLoadMoreListener listener) {
 		super(context);
+		mOnLoadMoreListener = listener;
 		this.context = context;
-		picker = UrlPicker.getInstance();
 		createUI();
 	}
 
@@ -37,32 +36,20 @@ public class AllKindPicView extends LinearLayout {
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT);
 
-		mMultiColumnPullToRefreshListView = new MultiColumnPullToRefreshListView(
-				context);
-		mMultiColumnPullToRefreshListView.setShowLastUpdatedText(true);
-		// mMultiColumnPullToRefreshListView.setLockScrollWhileRefreshing(true);
-		mMultiColumnPullToRefreshListView
-				.setOnRefreshListener(mOnRefreshListener);
-		addView(mMultiColumnPullToRefreshListView, params);
+		mMultiColumnListView = new MultiColumnListView(context);
+		mMultiColumnListView.setOnLoadMoreListener(mOnLoadMoreListener);
+		addView(mMultiColumnListView, params);
 
 	}
 
-	private OnRefreshListener mOnRefreshListener = new OnRefreshListener() {
-
-		@Override
-		public void onRefresh() {
-			picker.pick(page);
-		}
-
-	};
 
 	public void onRefreshComplete() {
-		if (mMultiColumnPullToRefreshListView != null)
-			mMultiColumnPullToRefreshListView.onRefreshComplete();
+		if(mMultiColumnListView != null)
+			mMultiColumnListView.onLoadMoreComplete();
 	}
 
 	public void setAdapter(BaseAdapter adapter) {
-		mMultiColumnPullToRefreshListView.setAdapter(adapter);
+		mMultiColumnListView.setAdapter(adapter);
 	}
 
 }

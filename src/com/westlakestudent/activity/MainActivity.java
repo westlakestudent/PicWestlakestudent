@@ -14,6 +14,7 @@ import com.westlakestudent.entity.ImageUrl;
 import com.westlakestudent.net.UrlPicker;
 import com.westlakestudent.ui.AllKindPicView;
 import com.westlakestudent.util.ScaleUtil;
+import com.westlakestudent.widget.MultiColumnListView.OnLoadMoreListener;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +28,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ImageView.ScaleType;
+import android.widget.Toast;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -34,7 +36,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnLoadMoreListener{
 
 	private static final String TAG = "MainActivity";
 
@@ -47,13 +49,16 @@ public class MainActivity extends Activity {
 	private static AllKindPicView mAllKindPicView = null;
 
 	private static PicAdapter mPicAdapter = null;
+	
+	private int page = 1;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		com.westlakestudent.util.ScaleUtil.scaleInit(this, 800, 480, 240);
 
-		mAllKindPicView = new AllKindPicView(this);
+		mAllKindPicView = new AllKindPicView(this,this);
 		mPicAdapter = new PicAdapter();
 		mAllKindPicView.setAdapter(mPicAdapter);
 
@@ -70,7 +75,7 @@ public class MainActivity extends Activity {
 
 		picker = UrlPicker.getInstance();
 		picker.registerHandler(UrlHandler);
-		picker.pick(1);
+		picker.pick(page,"小清新");
 	}
 
 	private static final Handler UrlHandler = new Handler() {
@@ -81,11 +86,8 @@ public class MainActivity extends Activity {
 			super.handleMessage(msg);
 			switch (msg.what) {
 			case Constants.URL_DONE:
-				urls.clear();
-				urls.addAll((List<ImageUrl>) msg.obj);
-				for (ImageUrl url : urls) {
-					Log.d(TAG, url.toString());
-				}
+				List<ImageUrl> newUrls = (List<ImageUrl>) msg.obj;
+				urls.addAll(newUrls);
 				mPicAdapter.notifyDataSetChanged();
 				mAllKindPicView.onRefreshComplete();
 				break;
@@ -148,6 +150,7 @@ public class MainActivity extends Activity {
 		public void onLoading(ImageView container, String uri,
 				BitmapDisplayConfig config, long total, long current) {
 			super.onLoading(container, uri, config, total, current);
+			
 		}
 
 		@Override
@@ -155,6 +158,7 @@ public class MainActivity extends Activity {
 				Bitmap bitmap, BitmapDisplayConfig config, BitmapLoadFrom from) {
 			super.onLoadCompleted(container, uri, bitmap, config, from);
 			fadeInDisplay(container, bitmap);
+			Log.d(TAG, holder.desc.getText() + "");
 		}
 
 	}
@@ -178,27 +182,37 @@ public class MainActivity extends Activity {
 				new Drawable[] { TRANSPARENT_DRAWABLE,
 						new BitmapDrawable(imageView.getResources(), bitmap) });
 		int width = ScaleUtil.scale(240);
-		int scale = bitmap.getWidth() / width;
+		float scale = bitmap.getWidth() * 1000 / width;
+		float scalef = scale / 1000;
 		int height = 0;
 		if (scale == 0) {
-			scale = width / bitmap.getWidth();
+			scale = width * 1000 / bitmap.getWidth();
+			scalef = scale / 1000;
 			if (scale == 0) {
 				imageView.setVisibility(View.GONE);
 				Log.d(TAG, "scale is 0");
 				return;
 			}
-			height = bitmap.getHeight() * scale;
+			height = (int) (bitmap.getHeight() * scalef);
+		}else{
+			height = (int) (bitmap.getHeight() / scalef);
 		}
 
-		height = bitmap.getHeight() / scale;
+		
 		LayoutParams params = imageView.getLayoutParams();
 		params.height = height;
 		params.width = width;
 		imageView.setLayoutParams(params);
-		imageView.setScaleType(ScaleType.FIT_CENTER);
+		imageView.setScaleType(ScaleType.FIT_XY);
 		imageView.setPadding(5, 5, 5, 5);
 
 		imageView.setImageDrawable(transitionDrawable);
 		transitionDrawable.startTransition(500);
+	}
+
+	@Override
+	public void onLoadMore() {
+		picker.pick(++page,"小清新");
+		Toast.makeText(this, "..加载更多", Toast.LENGTH_SHORT).show();
 	}
 }
