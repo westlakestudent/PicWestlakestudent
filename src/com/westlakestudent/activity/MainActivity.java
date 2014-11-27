@@ -1,6 +1,6 @@
 package com.westlakestudent.activity;
 
-import com.westlakestudent.ui.AllKindPicView;
+import com.westlakestudent.ui.MainContentView;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ public class MainActivity extends Activity {
 
 	private static final String TAG = "MainActivity";
 
-	private AllKindPicView mAllKindPicView = null;
+	private MainContentView MainView = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -18,8 +18,8 @@ public class MainActivity extends Activity {
 		Log.d(TAG, "onCreate");
 		
 		com.westlakestudent.util.ScaleUtil.scaleInit(this, 800, 480, 240);
-		mAllKindPicView = new AllKindPicView(this);
-		setContentView(mAllKindPicView);
+		MainView = new MainContentView(this);
+		setContentView(MainView);
 
 	}
 

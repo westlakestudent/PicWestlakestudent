@@ -12,7 +12,6 @@ public class NetUtil {
 	private Context mContext = null;
 	private static ConnectivityManager conn_Manager = null;
 	private final static String TAG = "NetUtil";
-	public final static String PhoneIsOnLineTipMsg = "手机未开启网络服务!";
 
 	public NetUtil(Context context) {
 		Log.d(TAG, "NetUtil");

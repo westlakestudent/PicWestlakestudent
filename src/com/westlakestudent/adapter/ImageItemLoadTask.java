@@ -71,7 +71,6 @@ public class ImageItemLoadTask extends DefaultBitmapLoadCallBack<ImageView> {
 			scalef = scale / 1000;
 			if (scale == 0) {
 				imageView.setVisibility(View.GONE);
-				Log.d(TAG, "scale is 0");
 				return;
 			}
 			height = (int) (bitmap.getHeight() * scalef);

@@ -3,11 +3,13 @@ package com.westlakestudent.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.westlakestudent.R;
 import com.westlakestudent.adapter.OnUrlCallBack;
 import com.westlakestudent.adapter.PicAdapter;
 import com.westlakestudent.adapter.UrlHandler;
 import com.westlakestudent.entity.ImageUrl;
 import com.westlakestudent.net.UrlPicker;
+import com.westlakestudent.util.ScaleUtil;
 import com.westlakestudent.util.WestlakestudentToast;
 import com.westlakestudent.widget.MultiColumnListView;
 import com.westlakestudent.widget.MultiColumnListView.OnLoadMoreListener;
@@ -24,10 +26,12 @@ import android.widget.LinearLayout;
  * @version 1.0.0
  * 
  */
-public class AllKindPicView extends LinearLayout implements OnUrlCallBack,OnLoadMoreListener{
+public class AllKindPicView extends LinearLayout implements OnUrlCallBack,
+		OnLoadMoreListener {
 
 	private static final String TAG = "AllKindPicView";
 	private MultiColumnListView mMultiColumnListView = null;
+	private TopOperateBar topbar = null;
 	private Context context = null;
 	private List<ImageUrl> urls = new ArrayList<ImageUrl>();
 	private PicAdapter adapter = null;
@@ -37,20 +41,30 @@ public class AllKindPicView extends LinearLayout implements OnUrlCallBack,OnLoad
 
 	public AllKindPicView(Context context) {
 		super(context);
+		setBackgroundColor(getResources().getColor(
+				R.color.withe));
+		setOrientation(LinearLayout.VERTICAL);
 		this.context = context;
 		handler = new UrlHandler(context);
 		handler.setCallBack(this);
 		picker = new UrlPicker(handler);
-		adapter = new PicAdapter(context,urls);
+		adapter = new PicAdapter(context, urls);
 		createUI();
 		picker.pick(page);
 	}
 
 	private void createUI() {
 		Log.d(TAG, "createUI");
-		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,
-				LayoutParams.MATCH_PARENT);
+		LayoutParams params = null;
 
+		params = new LayoutParams(LayoutParams.MATCH_PARENT,
+				ScaleUtil.scale(68));
+		topbar = new TopOperateBar(context);
+		addView(topbar, params);
+
+		params = new LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.MATCH_PARENT);
+		params.topMargin = ScaleUtil.scale(10);
 		mMultiColumnListView = new MultiColumnListView(context);
 		mMultiColumnListView.setOnLoadMoreListener(this);
 		mMultiColumnListView.setAdapter(adapter);
@@ -68,13 +82,13 @@ public class AllKindPicView extends LinearLayout implements OnUrlCallBack,OnLoad
 	@Override
 	public void onLoadMore() {
 		picker.pick(++page);
-		WestlakestudentToast.toast(context, "加载更多..." + page);
+		WestlakestudentToast.toast(context,
+				context.getResources().getString(R.string.more) + page);
 	}
 
 	@Override
 	public void onFailure() {
 		picker.pick(page);
 	}
-
 
 }

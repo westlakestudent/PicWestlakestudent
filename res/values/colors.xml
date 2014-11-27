@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="topbg">#66B3FF</color>
+    <color name="menu_pressed">#3F9FFD</color>
+    <color name="withe">#FFFFFF</color>
+    <color name="innerbg">#7373B9</color>
+    <color name="black">#000000</color>
+</resources>

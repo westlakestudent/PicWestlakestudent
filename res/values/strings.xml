@@ -9,6 +9,8 @@
     <string name="ptr_loading">Loading</string>
     <string name="ptr_last_updated">Updated: %1$s</string>
     <string name="ptr_refreshing">Refreshing</string>
-    
-
+    <string name="no_url">亲，未获取到图片数据!</string>
+    <string name="no_data">亲，图片获取失败了!</string>
+    <string name="more">加载更多</string>
+	<string name="no_net">手机未开启网络服务!</string>
 </resources>

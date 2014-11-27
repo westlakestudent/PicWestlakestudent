@@ -67,8 +67,8 @@ public class PicAdapter extends BaseAdapter {
 		String desc = imageUrl.getDesc();
 		String url = imageUrl.getUrl();
 		holder.desc.setText(desc);
-		Log.d(TAG, imageUrl.toString() + " 第" + position + "个" + "width:"
-				+ imageUrl.getWidth() + "height:" + imageUrl.getHeight());
+		Log.d(TAG, imageUrl.toString() + " ,position :" + position + " ,width:"
+				+ imageUrl.getWidth() + " ,height:" + imageUrl.getHeight());
 		bitmapUtils.display(holder.img, url, new ImageItemLoadTask());
 		return convertView;
 	}
