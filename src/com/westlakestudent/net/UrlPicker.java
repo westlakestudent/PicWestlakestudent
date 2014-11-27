@@ -51,6 +51,7 @@ public class UrlPicker {
 		@Override
 		public void onFailure(HttpException arg0, String info) {
 			Log.e(TAG, info);
+			handler.sendEmptyMessage(Constants.URL_FAIL);
 		}
 
 		@Override
@@ -87,6 +88,7 @@ public class UrlPicker {
 				}
 			} catch (JSONException e) {
 				Log.e(TAG, e.getMessage());
+				handler.sendEmptyMessage(Constants.URL_FAIL);
 			}
 		}
 

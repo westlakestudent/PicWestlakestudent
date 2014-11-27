@@ -47,6 +47,10 @@ public class UrlHandler extends Handler {
 			if(callback != null)
 				callback.callBack(newUrls);
 			break;
+		case Constants.URL_FAIL:
+			WestlakestudentToast.toast(context, "亲，图片获取失败了!");
+			if(callback != null)
+				callback.onFailure();
 		}
 	}
 

@@ -15,4 +15,6 @@ import com.westlakestudent.entity.ImageUrl;
 public interface OnUrlCallBack {
 
 	void callBack(List<ImageUrl> urls);
+	
+	void onFailure();
 }

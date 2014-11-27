@@ -71,5 +71,10 @@ public class AllKindPicView extends LinearLayout implements OnUrlCallBack,OnLoad
 		WestlakestudentToast.toast(context, "加载更多..." + page);
 	}
 
+	@Override
+	public void onFailure() {
+		picker.pick(page);
+	}
+
 
 }

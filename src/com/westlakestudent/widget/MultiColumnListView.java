@@ -33,7 +33,6 @@ import android.view.View;
  */
 public class MultiColumnListView extends PLA_ListView {
 
-	@SuppressWarnings("unused")
 	private static final String TAG = "MultiColumnListView";
 
 	private static final int DEFAULT_COLUMN_NUMBER = 2;
@@ -51,6 +50,7 @@ public class MultiColumnListView extends PLA_ListView {
 	public MultiColumnListView(Context context) {
 		super(context);
 		init(null);
+		Log.d(TAG, "init with null");
 	}
 
 	public MultiColumnListView(Context context, AttributeSet attrs) {
@@ -110,7 +110,6 @@ public class MultiColumnListView extends PLA_ListView {
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		super.onLayout(changed, l, t, r, b);
-		// TODO the adapter status may be changed. what should i do here...
 	}
 
 	@Override
@@ -361,7 +360,6 @@ public class MultiColumnListView extends PLA_ListView {
 		private int mSynchedTop = 0;
 		private int mSynchedBottom = 0;
 
-		// TODO is it ok to use item position info to identify item??
 
 		public Column(int index) {
 			mIndex = index;
