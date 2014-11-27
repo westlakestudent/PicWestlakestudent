@@ -1,13 +1,20 @@
 package com.westlakestudent.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.westlakestudent.adapter.OnUrlCallBack;
+import com.westlakestudent.adapter.PicAdapter;
+import com.westlakestudent.adapter.UrlHandler;
+import com.westlakestudent.entity.ImageUrl;
+import com.westlakestudent.net.UrlPicker;
+import com.westlakestudent.util.WestlakestudentToast;
 import com.westlakestudent.widget.MultiColumnListView;
 import com.westlakestudent.widget.MultiColumnListView.OnLoadMoreListener;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
-
 
 /**
  * 
@@ -17,18 +24,26 @@ import android.widget.LinearLayout;
  * @version 1.0.0
  * 
  */
-public class AllKindPicView extends LinearLayout {
+public class AllKindPicView extends LinearLayout implements OnUrlCallBack,OnLoadMoreListener{
 
 	private static final String TAG = "AllKindPicView";
 	private MultiColumnListView mMultiColumnListView = null;
-	private OnLoadMoreListener mOnLoadMoreListener = null;
 	private Context context = null;
+	private List<ImageUrl> urls = new ArrayList<ImageUrl>();
+	private PicAdapter adapter = null;
+	private UrlHandler handler = null;
+	private UrlPicker picker = null;
+	private int page = 1;
 
-	public AllKindPicView(Context context,OnLoadMoreListener listener) {
+	public AllKindPicView(Context context) {
 		super(context);
-		mOnLoadMoreListener = listener;
 		this.context = context;
+		handler = new UrlHandler(context);
+		handler.setCallBack(this);
+		picker = new UrlPicker(handler);
+		adapter = new PicAdapter(context,urls);
 		createUI();
+		picker.pick(page);
 	}
 
 	private void createUI() {
@@ -37,19 +52,24 @@ public class AllKindPicView extends LinearLayout {
 				LayoutParams.MATCH_PARENT);
 
 		mMultiColumnListView = new MultiColumnListView(context);
-		mMultiColumnListView.setOnLoadMoreListener(mOnLoadMoreListener);
+		mMultiColumnListView.setOnLoadMoreListener(this);
+		mMultiColumnListView.setAdapter(adapter);
 		addView(mMultiColumnListView, params);
 
 	}
 
-
-	public void onRefreshComplete() {
-		if(mMultiColumnListView != null)
-			mMultiColumnListView.onLoadMoreComplete();
+	@Override
+	public void callBack(List<ImageUrl> urls) {
+		this.urls.addAll(urls);
+		adapter.notify(this.urls);
+		mMultiColumnListView.onLoadMoreComplete();
 	}
 
-	public void setAdapter(BaseAdapter adapter) {
-		mMultiColumnListView.setAdapter(adapter);
+	@Override
+	public void onLoadMore() {
+		picker.pick(++page);
+		WestlakestudentToast.toast(context, "加载更多..." + page);
 	}
+
 
 }

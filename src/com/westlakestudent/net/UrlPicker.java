@@ -22,24 +22,14 @@ import com.westlakestudent.entity.ImageUrl;
 public class UrlPicker {
 	private static final String TAG = "UrlPicker";
 	
-	private static UrlPicker picker = null;
-	
 	private Handler handler = null;
 
 	private List<ImageUrl> urls = new ArrayList<ImageUrl>();
 	
-	private UrlPicker(){}
-	
-	
-	public static UrlPicker getInstance(){
-		if(picker == null)
-			picker = new UrlPicker();
-		return picker;
-	} 
-	
-	public void registerHandler(Handler handler){
+	public UrlPicker(Handler handler){
 		this.handler = handler;
 	}
+	
 	
 	public void pick(int page) {
 		String url = "http://image.baidu.com/channel/listjson?" + "pn="
