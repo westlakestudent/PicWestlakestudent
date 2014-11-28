@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import com.lidroid.xutils.BitmapUtils;
 import com.westlakestudent.R;
 import com.westlakestudent.app.PictureApplication;
+import com.westlakestudent.constants.Constants;
 import com.westlakestudent.entity.ImageUrl;
 
 /**
@@ -69,7 +70,7 @@ public class PicAdapter extends BaseAdapter {
 		holder.desc.setText(desc);
 		Log.d(TAG, imageUrl.toString() + " ,position :" + position + " ,width:"
 				+ imageUrl.getWidth() + " ,height:" + imageUrl.getHeight());
-		bitmapUtils.display(holder.img, url, new ImageItemLoadTask());
+		bitmapUtils.display(holder.img, url, new ImageItemLoadTask(Constants.SMALL));
 		return convertView;
 	}
 

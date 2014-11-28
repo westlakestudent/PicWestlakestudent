@@ -1,6 +1,7 @@
 package com.westlakestudent.adapter;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -14,6 +15,7 @@ import android.widget.ImageView.ScaleType;
 import com.lidroid.xutils.bitmap.BitmapDisplayConfig;
 import com.lidroid.xutils.bitmap.callback.BitmapLoadFrom;
 import com.lidroid.xutils.bitmap.callback.DefaultBitmapLoadCallBack;
+import com.westlakestudent.constants.Constants;
 import com.westlakestudent.util.ScaleUtil;
 
 /**
@@ -28,8 +30,10 @@ public class ImageItemLoadTask extends DefaultBitmapLoadCallBack<ImageView> {
 
 	private static final String TAG = "ImageItemLoadTask";
 	
-	public ImageItemLoadTask(){
-		
+	private int FLAG = Constants.SMALL;
+	
+	public ImageItemLoadTask(int flag){
+		FLAG = flag;
 	}
 	
 	@Override
@@ -62,7 +66,12 @@ public class ImageItemLoadTask extends DefaultBitmapLoadCallBack<ImageView> {
 						new BitmapDrawable(imageView.getResources(), bitmap) });
 		
 		
-		int width = ScaleUtil.scale(240);
+		int width = 0;
+		if(FLAG == Constants.SMALL){
+			width = ScaleUtil.scale(240);
+		}else if(FLAG == Constants.BIG){
+			width = ScaleUtil.scale(480);
+		}
 		float scale = bitmap.getWidth() * 1000 / width;
 		float scalef = scale / 1000;
 		int height = 0;
@@ -82,8 +91,16 @@ public class ImageItemLoadTask extends DefaultBitmapLoadCallBack<ImageView> {
 		params.height = height;
 		params.width = width;
 		imageView.setLayoutParams(params);
-		imageView.setScaleType(ScaleType.FIT_XY);
-		imageView.setPadding(5, 5, 5, 5);
+		if(FLAG == Constants.SMALL){
+			imageView.setScaleType(ScaleType.FIT_XY);
+			imageView.setPadding(5, 5, 5, 5);
+		}
+		else if(FLAG == Constants.BIG){
+			imageView.setBackgroundColor(Color.parseColor("#3C3C3C"));
+			imageView.setScaleType(ScaleType.FIT_CENTER);
+			imageView.setPadding(1, 1, 1, 1);
+		}
+			
 
 		imageView.setImageDrawable(transitionDrawable);
 		transitionDrawable.startTransition(500);

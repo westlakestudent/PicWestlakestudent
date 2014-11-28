@@ -12,5 +12,7 @@
     <string name="no_url">亲，未获取到图片数据!</string>
     <string name="no_data">亲，图片获取失败了!</string>
     <string name="more">加载更多</string>
-	<string name="no_net">手机未开启网络服务!</string>
+	<string name="no_net">亲，手机未开启网络服务哦!</string>
+	<string name="confirm">确定</string>
+	<string name="cancel">取消</string>
 </resources>

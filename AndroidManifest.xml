@@ -8,8 +8,11 @@
         android:minSdkVersion="11"
         android:targetSdkVersion="21" />
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
     <application
         android:name="com.westlakestudent.app.PictureApplication"
         android:allowBackup="true"
@@ -17,15 +20,18 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme" >
         <activity
-            android:theme="@android:style/Theme.Black.NoTitleBar"
             android:name="com.westlakestudent.activity.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.westlakestudent.activity.ImageActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar" />
     </application>
 
 </manifest>

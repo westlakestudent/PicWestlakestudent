@@ -3,6 +3,7 @@ package com.westlakestudent.ui;
 import com.westlakestudent.R;
 import com.westlakestudent.widget.DragLayout;
 
+import android.app.Activity;
 import android.content.Context;
 
 /**
@@ -19,15 +20,15 @@ public class MainContentView extends DragLayout {
 
 	private OutterLayout outterLayout = null;
 
-	public MainContentView(Context context) {
+	public MainContentView(Context context,Activity activity) {
 		super(context);
-		createUI(context);
+		createUI(context,activity);
 		setDragListener(mDragListener);
 		init(innerLayout, outterLayout);
 		setBackgroundColor(getResources().getColor(R.color.innerbg));
 	}
 
-	private void createUI(Context context) {
+	private void createUI(Context context,Activity activity) {
 		LayoutParams params = null;
 
 		innerLayout = new InnerLayout(context);
@@ -36,7 +37,7 @@ public class MainContentView extends DragLayout {
 		innerLayout.setPadding(30, 50, 0, 30);
 		addView(innerLayout, params);
 
-		outterLayout = new OutterLayout(context);
+		outterLayout = new OutterLayout(context,this,activity);
 		outterLayout.setDragLayout(this);
 		params = new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT);

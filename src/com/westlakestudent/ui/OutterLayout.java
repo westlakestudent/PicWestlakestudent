@@ -1,8 +1,10 @@
 package com.westlakestudent.ui;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.westlakestudent.widget.DragContent;
+import com.westlakestudent.widget.DragLayout;
 
 /**
  * 
@@ -16,16 +18,17 @@ public class OutterLayout extends DragContent {
 
 	private AllKindPicView mAllKindPicView = null;
 
-	public OutterLayout(Context context) {
+	public OutterLayout(Context context,DragLayout drag,Activity activity) {
 		super(context);
-		createUI(context);
+		createUI(context,drag,activity);
 	}
 
-	private void createUI(Context context) {
+	private void createUI(Context context,DragLayout drag,Activity activity) {
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT);
 		
-		mAllKindPicView = new AllKindPicView(context);
+		mAllKindPicView = new AllKindPicView(context,drag);
+		mAllKindPicView.setActivity(activity);
 		addView(mAllKindPicView, params);
 	}
 }

@@ -20,7 +20,7 @@ public class WestlakestudentDialog {
 			title = "提示";
 		new AlertDialog.Builder(context).setTitle(title).setMessage(msg)
 				.setPositiveButton("确定", null)
-				.setIcon(android.R.drawable.ic_dialog_alert).show();
+				.setIcon(android.R.drawable.ic_dialog_alert).create().show();
 	}
 
 	public static void showInfo(Context context, String title, String msg) {
@@ -28,10 +28,10 @@ public class WestlakestudentDialog {
 			title = "提示";
 		new AlertDialog.Builder(context).setTitle(title).setMessage(msg)
 				.setPositiveButton("确定", null)
-				.setIcon(android.R.drawable.ic_dialog_info).show();
+				.setIcon(android.R.drawable.ic_dialog_info).create().show();
 	}
 
-	public static void showWithListener(final Context context, String title,
+	public static void showNeedNetOpen(final Context context, String title,
 			String msg) {
 		new AlertDialog.Builder(context).setTitle(title).setMessage(msg)
 				.setPositiveButton("确定", new OnClickListener() {
@@ -42,6 +42,15 @@ public class WestlakestudentDialog {
 						arg0.dismiss();
 					}
 				}).setNegativeButton("取消", null)
-				.setIcon(android.R.drawable.ic_dialog_alert).show();
+				.setIcon(android.R.drawable.ic_dialog_alert).create().show();
+	}
+	
+	
+	public static void showWithListener(final Context context, String title,
+			String msg,OnClickListener listener){
+		new AlertDialog.Builder(context).setTitle(title).setMessage(msg)
+		.setPositiveButton("确定", listener).setNegativeButton("取消", null)
+		.setIcon(android.R.drawable.ic_dialog_alert).create().show();
+		
 	}
 }
