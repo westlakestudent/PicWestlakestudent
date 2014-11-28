@@ -5,6 +5,8 @@
     <color name="withe">#FFFFFF</color>
     <color name="innerbg">#3C3C3C</color>
     <color name="black">#000000</color>
+    <color name="kind_nomal">#8F84C1FF</color>
+    <color name="kind_pressed">#DF84C1FF</color>
     
     
     <!-- dialog effect color -->

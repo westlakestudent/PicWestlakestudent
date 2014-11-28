@@ -13,9 +13,11 @@ import android.widget.TextView;
 
 import com.westlakestudent.R;
 import com.westlakestudent.R.color;
+import com.westlakestudent.net.UrlPicker;
 import com.westlakestudent.util.ScaleUtil;
-import com.westlakestudent.util.WestlakestudentToast;
 import com.westlakestudent.widget.DragLayout;
+import com.westlakestudent.widget.PicKindPopView;
+import com.westlakestudent.widget.PicKindPopView.OnKindChangedListener;
 
 /**
  * 
@@ -25,7 +27,7 @@ import com.westlakestudent.widget.DragLayout;
  * @version 1.0.0
  * 
  */
-public class TopOperateBar extends LinearLayout implements OnClickListener {
+public class TopOperateBar extends LinearLayout implements OnClickListener ,OnKindChangedListener{
 	private static final String TAG = "TopOperateBar";
 
 	private Button menu = null;
@@ -37,10 +39,13 @@ public class TopOperateBar extends LinearLayout implements OnClickListener {
 	private int menuRes = R.drawable.menu_selector;
 
 	private DragLayout drag = null;
-	
+
 	private BackListener backListener = null;
-	
+
 	private Context context = null;
+	
+	private int selected = 0;
+	
 
 	public TopOperateBar(Context context) {
 		super(context);
@@ -53,8 +58,8 @@ public class TopOperateBar extends LinearLayout implements OnClickListener {
 	public void setDrag(DragLayout drag) {
 		this.drag = drag;
 	}
-	
-	public void setBackListener(BackListener l){
+
+	public void setBackListener(BackListener l) {
 		backListener = l;
 	}
 
@@ -64,25 +69,29 @@ public class TopOperateBar extends LinearLayout implements OnClickListener {
 		menuRes = res;
 		menu.setBackgroundResource(res);
 	}
-	
-	public void setTitle(String str){
-		if(title != null){
+
+	public void setTitle(String str) {
+		if (title != null) {
 			title.setText(str);
-			if(!str.equals("预览")){
+			if (!str.equals("预览")) {
 				title.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
 				title.setClickable(true);
-			}else{
+			} else {
 				title.setClickable(false);
 			}
 		}
-			
+
+	}
+	
+	public void setPicker(UrlPicker picker){
+		
 	}
 
 	private void createUI(Context context) {
 		LayoutParams params = null;
 
 		menu = new Button(context);
-		menu.setBackgroundResource(menuRes);                                           
+		menu.setBackgroundResource(menuRes);
 		menu.setOnClickListener(this);
 		params = new LayoutParams(ScaleUtil.scale(68), ScaleUtil.scale(68));
 		params.gravity = Gravity.CENTER_VERTICAL;
@@ -111,22 +120,28 @@ public class TopOperateBar extends LinearLayout implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		if (v == title) {
-			WestlakestudentToast.toast(context, "ceshi");
-		} else if (v == menu ) {
-			if(menuRes == R.drawable.menu_selector){
+			PicKindPopView pop = new PicKindPopView(context,selected);
+			pop.showAtLocation((View) getParent(), Gravity.TOP, 0,
+					ScaleUtil.scale(100));
+		} else if (v == menu) {
+			if (menuRes == R.drawable.menu_selector) {
 				if (drag != null)
 					drag.open();
-			}else if(menuRes == R.drawable.back_selector){
-				if(backListener != null)
+			} else if (menuRes == R.drawable.back_selector) {
+				if (backListener != null)
 					backListener.onBack();
 			}
-			
+
 		}
 	}
-	
-	
-	public interface BackListener{
+
+	public interface BackListener {
 		void onBack();
+	}
+
+	@Override
+	public void onChanged(String kind, int selected) {
+		
 	}
 
 }
