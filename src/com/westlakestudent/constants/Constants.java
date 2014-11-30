@@ -24,4 +24,10 @@ public class Constants {
 	public static final int SMALL = 0;
 	
 	public static final int BIG = 2;
+	
+	
+	//changed true 1,false -1
+	public static final int CHANGED = 1;
+	
+	public static final int UNCHANGED = -1;
 }

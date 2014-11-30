@@ -7,6 +7,7 @@ import com.westlakestudent.widget.dialog.NiftyDialogBuilder;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Process;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -59,6 +60,7 @@ public class MainActivity extends Activity {
 		public void onClick(View v) {
 			dialogBuilder.dismiss();
 			MainActivity.this.finish();
+			Process.killProcess(Process.myPid());
 		}
 	};
 

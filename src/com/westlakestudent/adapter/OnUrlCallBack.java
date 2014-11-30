@@ -16,5 +16,7 @@ public interface OnUrlCallBack {
 
 	void callBack(List<ImageUrl> urls);
 	
+	void onChangedKind(List<ImageUrl> urls);
+	
 	void onFailure();
 }

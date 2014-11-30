@@ -5,4 +5,27 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="dialog_padding">25dp</dimen>
 
+    
+    <string-array name="kind">
+        <item>全部</item>
+        <item>小清新</item>
+        <item>性感美女</item>
+        <item>写真</item>
+        <item>诱惑</item>
+        <item>长腿</item>
+        <item>清纯</item>
+        <item>校花</item>
+        <item>气质</item>
+        <item>嫩萝莉</item>
+        <item>时尚</item>
+        <item>长发</item>
+        <item>比基尼</item>
+        <item>可爱</item>
+        <item>网络美女</item>
+        <item>唯美</item>
+        <item>车模</item>
+        <item>古典美女</item>
+        <item>素颜</item>
+        <item>短发</item>
+    </string-array>
 </resources>

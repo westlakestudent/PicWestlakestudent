@@ -45,8 +45,15 @@ public class UrlHandler extends Handler {
 						.getString(R.string.no_url));
 				return;
 			}
-			if (callback != null)
-				callback.callBack(newUrls);
+			
+			
+			if (callback != null){
+				if(msg.arg1 == Constants.CHANGED)
+					callback.onChangedKind(newUrls);
+				else if(msg.arg1 == Constants.UNCHANGED)
+					callback.callBack(newUrls);
+			}
+				
 			break;
 		case Constants.URL_FAIL:
 			WestlakestudentToast.toast(context, context.getResources()

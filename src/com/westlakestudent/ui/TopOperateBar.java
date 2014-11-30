@@ -13,11 +13,10 @@ import android.widget.TextView;
 
 import com.westlakestudent.R;
 import com.westlakestudent.R.color;
-import com.westlakestudent.net.UrlPicker;
 import com.westlakestudent.util.ScaleUtil;
 import com.westlakestudent.widget.DragLayout;
-import com.westlakestudent.widget.PicKindPopView;
-import com.westlakestudent.widget.PicKindPopView.OnKindChangedListener;
+import com.westlakestudent.widget.PicKindDialog;
+import com.westlakestudent.widget.PicKindDialog.OnKindSelectedListener;
 
 /**
  * 
@@ -27,7 +26,7 @@ import com.westlakestudent.widget.PicKindPopView.OnKindChangedListener;
  * @version 1.0.0
  * 
  */
-public class TopOperateBar extends LinearLayout implements OnClickListener ,OnKindChangedListener{
+public class TopOperateBar extends LinearLayout implements OnClickListener {
 	private static final String TAG = "TopOperateBar";
 
 	private Button menu = null;
@@ -46,6 +45,8 @@ public class TopOperateBar extends LinearLayout implements OnClickListener ,OnKi
 	
 	private int selected = 0;
 	
+	private OnKindSelectedListener mOnKindSelectedListener = null;
+	
 
 	public TopOperateBar(Context context) {
 		super(context);
@@ -61,6 +62,10 @@ public class TopOperateBar extends LinearLayout implements OnClickListener ,OnKi
 
 	public void setBackListener(BackListener l) {
 		backListener = l;
+	}
+	
+	public void setKindChangedListener(OnKindSelectedListener l){
+		mOnKindSelectedListener = l;
 	}
 
 	public void setMenuRes(int res) {
@@ -83,9 +88,6 @@ public class TopOperateBar extends LinearLayout implements OnClickListener ,OnKi
 
 	}
 	
-	public void setPicker(UrlPicker picker){
-		
-	}
 
 	private void createUI(Context context) {
 		LayoutParams params = null;
@@ -120,9 +122,8 @@ public class TopOperateBar extends LinearLayout implements OnClickListener ,OnKi
 	@Override
 	public void onClick(View v) {
 		if (v == title) {
-			PicKindPopView pop = new PicKindPopView(context,selected);
-			pop.showAtLocation((View) getParent(), Gravity.TOP, 0,
-					ScaleUtil.scale(100));
+			PicKindDialog dialog = new PicKindDialog(context, selected,mOnKindSelectedListener);
+			dialog.show();
 		} else if (v == menu) {
 			if (menuRes == R.drawable.menu_selector) {
 				if (drag != null)
@@ -139,9 +140,9 @@ public class TopOperateBar extends LinearLayout implements OnClickListener ,OnKi
 		void onBack();
 	}
 
-	@Override
-	public void onChanged(String kind, int selected) {
-		
-	}
 
+	public void onChanged(int selected,String kind){
+		this.selected = selected;
+		title.setText(kind);
+	}
 }

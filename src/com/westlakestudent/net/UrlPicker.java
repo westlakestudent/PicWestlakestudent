@@ -26,22 +26,28 @@ public class UrlPicker {
 
 	private List<ImageUrl> urls = new ArrayList<ImageUrl>();
 	
+	private boolean changed = false;
+	
 	public UrlPicker(Handler handler){
 		this.handler = handler;
 	}
 	
 	
 	public void pick(int page) {
-		String url = "http://image.baidu.com/channel/listjson?" + "pn="
-				+ page + "&rn=30&tag1=美女&tag2=全部&ie=utf8";
+		String url = "http://image.baidu.com/data/imgs?col=美女&tag=全部&pn="
+				+ page + "&rn=60&from=1";
+		
 		
 		HttpUtils http = new HttpUtils(10 * 1000);
 		http.send(HttpMethod.GET, url, new PickTask());
 	}
 
-	public void pick(int page,String kind){
-		String url = "http://image.baidu.com/channel/listjson?"
-				+ "pn=" + page + "&rn=30&tag1=美女&tag2=全部&ftags=" + kind + "&ie=utf8";
+	
+	//changed true 表示类型变换urls需要清空
+	public void pick(int page,String kind,boolean changed){
+		this.changed = changed;
+		String url = "http://image.baidu.com/data/imgs?col=美女&tag=" + kind +"&pn="
+				+ page + "&rn=60&from=1";
 		HttpUtils http = new HttpUtils(10 * 1000);
 		http.send(HttpMethod.GET, url, new PickTask());
 	}
@@ -63,13 +69,13 @@ public class UrlPicker {
 			urls.clear();
 			try {
 				JSONObject json = new JSONObject(result);
-				JSONArray data = json.optJSONArray("data");
+				JSONArray data = json.optJSONArray("imgs");
 				for (int i = 0; i < data.length(); i++) {
 					JSONObject obj = data.getJSONObject(i);
-					String url = obj.optString("image_url");
-					String width = obj.optString("image_width");
-					String height = obj.optString("image_height");
-					String desc = obj.optString("desc");
+					String url = obj.optString("imageUrl");
+					String width = obj.optString("imageWidth");
+					String height = obj.optString("imageHeight");
+					String desc = obj.optString("title");
 					ImageUrl img = new ImageUrl();
 					img.setDesc(desc);
 					img.setHeight(isNull(height)? 0 :Integer.valueOf(height));
@@ -84,6 +90,10 @@ public class UrlPicker {
 					Message msg = handler.obtainMessage();
 					msg.obj = urls;
 					msg.what = Constants.URL_DONE;
+					if(changed)
+						msg.arg1 = Constants.CHANGED;
+					else
+						msg.arg1 = Constants.UNCHANGED;
 					handler.sendMessage(msg);
 				}
 			} catch (JSONException e) {

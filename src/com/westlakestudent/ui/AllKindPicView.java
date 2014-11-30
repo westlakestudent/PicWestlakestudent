@@ -19,6 +19,7 @@ import com.westlakestudent.widget.MultiColumnListView;
 import com.westlakestudent.widget.MultiColumnListView.OnLoadMoreListener;
 import com.westlakestudent.widget.PLA_AdapterView;
 import com.westlakestudent.widget.PLA_AdapterView.OnItemClickListener;
+import com.westlakestudent.widget.PicKindDialog.OnKindSelectedListener;
 
 import android.app.Activity;
 import android.content.Context;
@@ -38,7 +39,7 @@ import android.widget.LinearLayout;
  * 
  */
 public class AllKindPicView extends LinearLayout implements OnUrlCallBack,
-		OnLoadMoreListener {
+		OnLoadMoreListener ,OnKindSelectedListener{
 
 	private static final String TAG = "AllKindPicView";
 	private MultiColumnListView mMultiColumnListView = null;
@@ -52,6 +53,8 @@ public class AllKindPicView extends LinearLayout implements OnUrlCallBack,
 	private int page = 1;
 	private int repick = 0;
 	private Activity activity = null;
+	private String kind = null;
+	
 
 	public AllKindPicView(Context context) {
 		super(context);
@@ -63,7 +66,10 @@ public class AllKindPicView extends LinearLayout implements OnUrlCallBack,
 		picker = new UrlPicker(handler);
 		adapter = new PicAdapter(context, urls);
 		createUI();
-		picker.pick(page);
+		if(kind == null)
+			picker.pick(page);
+		else
+			picker.pick(page, kind,false);
 	}
 	
 	public AllKindPicView(Context context,DragLayout drag){
@@ -89,7 +95,8 @@ public class AllKindPicView extends LinearLayout implements OnUrlCallBack,
 				ScaleUtil.scale(68));
 		topbar = new TopOperateBar(context);
 		topbar.setDrag(drag);
-		topbar.setTitle("图片");
+		topbar.setTitle("全部");
+		topbar.setKindChangedListener(this);
 		addView(topbar, params);
 
 		params = new LayoutParams(LayoutParams.MATCH_PARENT,
@@ -144,8 +151,18 @@ public class AllKindPicView extends LinearLayout implements OnUrlCallBack,
 	}
 
 	@Override
+	public void onChangedKind(List<ImageUrl> urls) {
+		this.urls.clear();
+		this.urls.addAll(urls);
+		adapter.notify(this.urls);
+	}
+	
+	@Override
 	public void onLoadMore() {
-		picker.pick(++page);
+		if(kind == null)
+			picker.pick(++page);
+		else
+			picker.pick(++page, kind,false);
 		WestlakestudentToast.toast(context,
 				context.getResources().getString(R.string.more) + page);
 	}
@@ -153,7 +170,10 @@ public class AllKindPicView extends LinearLayout implements OnUrlCallBack,
 	@Override
 	public void onFailure() {
 		if (repick < 10) {
-			picker.pick(page);
+			if(kind == null)
+				picker.pick(page);
+			else
+				picker.pick(page, kind,false);
 			repick++;// 每次失败则+1，10次之后就不再获取
 			return;
 		}
@@ -165,9 +185,22 @@ public class AllKindPicView extends LinearLayout implements OnUrlCallBack,
 
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
-			picker.pick(page);
+			if(kind == null)
+				picker.pick(page);
+			else
+				picker.pick(page, kind,false);
 			dialog.dismiss();
 		}
 	};
+
+	@Override
+	public void onChanged(String kind, int selected) {
+		page = 0;
+		picker.pick(page, kind,true);
+		this.kind = kind;
+		if(topbar != null)
+			topbar.onChanged(selected,kind);
+	}
+
 
 }
