@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="topbg">#66B3FF</color>
     <color name="menu_pressed">#3F9FFD</color>
     <color name="withe">#FFFFFF</color>
@@ -7,14 +8,15 @@
     <color name="black">#000000</color>
     <color name="kind_nomal">#8F84C1FF</color>
     <color name="kind_pressed">#DF84C1FF</color>
-    
-    
+    <color name="welcome_nomal">#46A3FF</color>
+    <color name="welcome_pressed">#97CBFF</color>
+
     <!-- dialog effect color -->
-     <color name="text_color">#FFFFFF</color>
+    <color name="text_color">#FFFFFF</color>
     <color name="divider_color">#11000000</color>
     <color name="msg_color">#FFFFFFFF</color>
     <color name="dialog_bg">#ffe74c3c</color>
-
     <color name="btn_press_color">#66000000</color>
     <color name="btn_unpress_color">#22000000</color>
+
 </resources>

@@ -30,4 +30,9 @@ public class Constants {
 	public static final int CHANGED = 1;
 	
 	public static final int UNCHANGED = -1;
+	
+	
+	//if the app is first start
+	
+	public static final String FIRST_STARTED = "FIRST_STARTED";
 }

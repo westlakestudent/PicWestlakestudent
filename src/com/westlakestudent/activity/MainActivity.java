@@ -24,7 +24,6 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate");
 
-		com.westlakestudent.util.ScaleUtil.scaleInit(this, 800, 480, 240);
 		MainView = new MainContentView(this, MainActivity.this);
 		setContentView(MainView);
 

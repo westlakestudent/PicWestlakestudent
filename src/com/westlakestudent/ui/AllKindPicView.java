@@ -198,6 +198,7 @@ public class AllKindPicView extends LinearLayout implements OnUrlCallBack,
 		page = 0;
 		picker.pick(page, kind,true);
 		this.kind = kind;
+		mMultiColumnListView.smoothScrollToPosition(0);
 		if(topbar != null)
 			topbar.onChanged(selected,kind);
 	}

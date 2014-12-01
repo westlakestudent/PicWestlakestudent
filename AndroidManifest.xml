@@ -20,7 +20,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme" >
         <activity
-            android:name="com.westlakestudent.activity.MainActivity"
+            android:name="com.westlakestudent.activity.WelcomeActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Black.NoTitleBar" >
             <intent-filter>
@@ -31,6 +31,12 @@
         </activity>
         <activity
             android:name="com.westlakestudent.activity.ImageActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar" />
+        <activity
+            android:name="com.westlakestudent.activity.GuideActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar" />
+        <activity
+            android:name="com.westlakestudent.activity.MainActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar" />
     </application>
 
