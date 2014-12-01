@@ -22,6 +22,7 @@
         <activity
             android:name="com.westlakestudent.activity.WelcomeActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,12 +32,19 @@
         </activity>
         <activity
             android:name="com.westlakestudent.activity.ImageActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar" />
         <activity
             android:name="com.westlakestudent.activity.GuideActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar" />
         <activity
             android:name="com.westlakestudent.activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar" />
+        <activity
+            android:name="com.westlakestudent.activity.AboutActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar" />
     </application>
 

@@ -78,7 +78,7 @@ public class TopOperateBar extends LinearLayout implements OnClickListener {
 	public void setTitle(String str) {
 		if (title != null) {
 			title.setText(str);
-			if (!str.equals("预览")) {
+			if (!str.equals("预览") && !str.equals("关于")) {
 				title.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
 				title.setClickable(true);
 			} else {

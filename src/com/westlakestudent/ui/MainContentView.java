@@ -32,6 +32,7 @@ public class MainContentView extends DragLayout {
 		LayoutParams params = null;
 
 		innerLayout = new InnerLayout(context);
+		innerLayout.setDrag(this);
 		params = new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT);
 		innerLayout.setPadding(30, 50, 0, 30);

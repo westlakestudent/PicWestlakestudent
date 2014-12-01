@@ -1,8 +1,12 @@
 package com.westlakestudent.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -10,8 +14,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.westlakestudent.R;
+import com.westlakestudent.activity.AboutActivity;
 import com.westlakestudent.util.ScaleUtil;
 import com.westlakestudent.widget.CircleImageView;
+import com.westlakestudent.widget.DragLayout;
 
 /**
  * 
@@ -28,9 +34,14 @@ public class InnerLayout extends RelativeLayout {
 	private ListView items = null;
 	private ArrayAdapter<String> adapter = null;
 	private static final int LAYOUT_ID = 0xfffffff0;
+	
+	private Context context = null;
+	
+	private DragLayout drag = null;
 
 	public InnerLayout(Context context) {
 		super(context);
+		this.context = context;
 		setBackgroundColor(getResources().getColor(R.color.innerbg));
 		adapter = new ArrayAdapter<String>(context,
 				android.R.layout.simple_list_item_1, getResources()
@@ -38,6 +49,10 @@ public class InnerLayout extends RelativeLayout {
 		createUI(context);
 	}
 
+	public void setDrag(DragLayout drag){
+		this.drag = drag;
+	}
+	
 	private void createUI(Context context) {
 		LayoutParams params = null;
 
@@ -76,6 +91,7 @@ public class InnerLayout extends RelativeLayout {
 		items.setDivider(new ColorDrawable(getResources().getColor(
 				R.color.withe)));
 		items.setDividerHeight(1);
+		items.setOnItemClickListener(mOnItemClickListener);
 		
 		params = new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT);
@@ -85,4 +101,19 @@ public class InnerLayout extends RelativeLayout {
 
 	}
 
+	
+	private OnItemClickListener mOnItemClickListener = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+				long arg3) {
+			if(position == 0){
+				Intent intent = new Intent(context,AboutActivity.class);
+				context.startActivity(intent);
+				if(drag != null)
+					drag.close();
+			}
+				
+		}
+	};
 }

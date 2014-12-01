@@ -2,10 +2,7 @@
 <resources>
 
     <string-array name="settings">
-        <item>设置</item>
         <item>关于</item>
-        <item>美图</item>
-        <item>搞笑</item>
     </string-array>
 
 </resources>
