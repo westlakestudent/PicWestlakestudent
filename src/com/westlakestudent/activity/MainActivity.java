@@ -1,5 +1,7 @@
 package com.westlakestudent.activity;
 
+import net.youmi.android.spot.SpotManager;
+
 import com.westlakestudent.R;
 import com.westlakestudent.ui.MainContentView;
 import com.westlakestudent.widget.dialog.Effectstype;
@@ -62,5 +64,17 @@ public class MainActivity extends Activity {
 			Process.killProcess(Process.myPid());
 		}
 	};
+
+	@Override
+	protected void onStop() {
+		SpotManager.getInstance(MainActivity.this).disMiss(false);
+		super.onStop();
+	}
+
+	@Override
+	protected void onDestroy() {
+		SpotManager.getInstance(this).unregisterSceenReceiver();
+		super.onDestroy();
+	}
 
 }

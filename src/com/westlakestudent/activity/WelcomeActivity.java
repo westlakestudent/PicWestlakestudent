@@ -1,5 +1,6 @@
 package com.westlakestudent.activity;
 
+import net.youmi.android.AdManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +27,10 @@ public class WelcomeActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		AdManager.getInstance(this).init("50f8dffa1a26a917",
+				"7376dc001fde5b43", false);
+
 		layout = new LinearLayout(this);
 		layout.setBackgroundResource(R.drawable.welcome);
 		setContentView(layout);

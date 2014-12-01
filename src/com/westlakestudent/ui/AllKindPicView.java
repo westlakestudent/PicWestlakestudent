@@ -3,6 +3,10 @@ package com.westlakestudent.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.youmi.android.banner.AdSize;
+import net.youmi.android.banner.AdView;
+import net.youmi.android.spot.SpotManager;
+
 import com.westlakestudent.R;
 import com.westlakestudent.activity.ImageActivity;
 import com.westlakestudent.adapter.OnUrlCallBack;
@@ -27,8 +31,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 
 /**
  * 
@@ -38,7 +43,7 @@ import android.widget.LinearLayout;
  * @version 1.0.0
  * 
  */
-public class AllKindPicView extends LinearLayout implements OnUrlCallBack,
+public class AllKindPicView extends FrameLayout implements OnUrlCallBack,
 		OnLoadMoreListener ,OnKindSelectedListener{
 
 	private static final String TAG = "AllKindPicView";
@@ -59,7 +64,6 @@ public class AllKindPicView extends LinearLayout implements OnUrlCallBack,
 	public AllKindPicView(Context context) {
 		super(context);
 		setBackgroundColor(getResources().getColor(R.color.withe));
-		setOrientation(LinearLayout.VERTICAL);
 		this.context = context;
 		handler = new UrlHandler(context);
 		handler.setCallBack(this);
@@ -75,7 +79,6 @@ public class AllKindPicView extends LinearLayout implements OnUrlCallBack,
 	public AllKindPicView(Context context,DragLayout drag){
 		super(context);
 		setBackgroundColor(getResources().getColor(R.color.withe));
-		setOrientation(LinearLayout.VERTICAL);
 		this.context = context;
 		this.drag = drag;
 		handler = new UrlHandler(context);
@@ -93,6 +96,7 @@ public class AllKindPicView extends LinearLayout implements OnUrlCallBack,
 
 		params = new LayoutParams(LayoutParams.MATCH_PARENT,
 				ScaleUtil.scale(68));
+		params.gravity = Gravity.TOP;
 		topbar = new TopOperateBar(context);
 		topbar.setDrag(drag);
 		topbar.setTitle("全部");
@@ -101,12 +105,26 @@ public class AllKindPicView extends LinearLayout implements OnUrlCallBack,
 
 		params = new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT);
-		params.topMargin = ScaleUtil.scale(10);
+		params.gravity = Gravity.TOP;
+		params.topMargin = ScaleUtil.scale(78);
 		mMultiColumnListView = new MultiColumnListView(context);
 		mMultiColumnListView.setOnLoadMoreListener(this);
 		mMultiColumnListView.setAdapter(adapter);
 		mMultiColumnListView.setOnItemClickListener(mOnItemClickListener);
 		addView(mMultiColumnListView, params);
+		
+		
+		AdView adView = new AdView(context, AdSize.FIT_SCREEN);
+		
+		params = new LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
+		params.gravity = Gravity.BOTTOM;
+		addView(adView, params);
+		
+		SpotManager.getInstance(context).loadSpotAds();
+		SpotManager.getInstance(context).setShowInterval(20);// 设置20秒的显示时间间隔
+		SpotManager.getInstance(context).setSpotOrientation(
+				SpotManager.ORIENTATION_PORTRAIT);
 
 	}
 
